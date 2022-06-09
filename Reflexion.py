@@ -6,11 +6,16 @@ import sys
 print(sys.argv)
 
 
-south = pd.read_csv("20220609_Mikhail_SiWafer/Scan URA 8° 08 June 2022 23_31 Mitteleuropäische Sommerzeit/Sample1080 South.Sample.Raw.csv")
-north = pd.read_csv("20220609_Mikhail_SiWafer/Scan URA 8° 08 June 2022 23_31 Mitteleuropäische Sommerzeit/Sample1083 North.Sample.Raw.csv")
-center = pd.read_csv("20220609_Mikhail_SiWafer/Scan URA 8° 08 June 2022 23_31 Mitteleuropäische Sommerzeit/Sample1084 Center.Sample.Raw.csv")
-east = pd.read_csv("20220609_Mikhail_SiWafer/Scan URA 8° 08 June 2022 23_31 Mitteleuropäische Sommerzeit/Sample1082 East.Sample.Raw.csv")
-west = pd.read_csv("20220609_Mikhail_SiWafer/Scan URA 8° 08 June 2022 23_31 Mitteleuropäische Sommerzeit/Sample1081 West.Sample.Raw.csv")
+south = pd.read_csv(
+    "20220609_SiWafer/Scan URA 8° 08 June 2022 23_31 Mitteleuropäische Sommerzeit/Sample1080 South.Sample.Raw.csv")
+north = pd.read_csv(
+    "20220609_SiWafer/Scan URA 8° 08 June 2022 23_31 Mitteleuropäische Sommerzeit/Sample1083 North.Sample.Raw.csv")
+center = pd.read_csv(
+    "20220609_SiWafer/Scan URA 8° 08 June 2022 23_31 Mitteleuropäische Sommerzeit/Sample1084 Center.Sample.Raw.csv")
+east = pd.read_csv(
+    "20220609_SiWafer/Scan URA 8° 08 June 2022 23_31 Mitteleuropäische Sommerzeit/Sample1082 East.Sample.Raw.csv")
+west = pd.read_csv(
+    "20220609_SiWafer/Scan URA 8° 08 June 2022 23_31 Mitteleuropäische Sommerzeit/Sample1081 West.Sample.Raw.csv")
 
 
 def brechungsindex(data):
