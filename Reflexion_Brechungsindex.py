@@ -2,11 +2,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 import tkinter.filedialog as fd
-import tkinter as tk
 from functools import reduce
+import tkinter as tk
 
-
-root = tk.Tk()
 def mean_data(*args):
         nm = args[0][0].index.values
         mergedset = reduce(lambda left, right: pd.merge(left, right, "outer", "nm"), args[0])
@@ -15,6 +13,8 @@ def mean_data(*args):
 
 
 def filereader():
+    root = tk.Tk()
+    root.withdraw()
     files = fd.askopenfilenames(parent=root, title='Choose files')
     filedata =[pd.read_csv(i, index_col=0) for i in files]
     return filedata
