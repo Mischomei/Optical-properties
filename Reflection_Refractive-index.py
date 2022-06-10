@@ -3,6 +3,28 @@ import matplotlib.pyplot as plt
 import numpy as np
 from functools import reduce
 import sys
+from tkinter import filedialog as fd
+import tkinter as tk
+
+class Plotter:
+    def __init__(self, data):
+        self.data = data
+    
+    def plot_reflection(self):
+        fig, ax1 = plt.subplots()
+        plot1 = ax1.plot(self.data["nm"], self.data["%R"], label="reflection")
+        ax1.set_xlabel("nm")
+        ax1.set_ylabel("%R")
+        ax1.set_ylim(0, 100)
+        plt.show()
+
+    def plot_refraction_index(self):
+        fig, ax2 = plt.subplots()
+        ax2.set_ylabel("refractive index")
+        plot2 = ax2.plot(data["nm"], brechungsindex(data, 8), color="red", label="refractive index")
+        plt.show()
+        
+        
 
 def mean_data(*args):
         nm = args[0][0].index.values
@@ -12,12 +34,9 @@ def mean_data(*args):
 
 
 def filereader():
-    #files = fd.askopenfilenames(parent=root, title='Choose files')
-    files = ["/home/mischa/Documents/Licht-Silizium/20220609_SiWafer/Scan URA 8° 08 June 2022 23_31 Mitteleuropäische Sommerzeit/Sample1084 Center.Sample.Raw.csv",
-            "/home/mischa/Documents/Licht-Silizium/20220609_SiWafer/Scan URA 8° 08 June 2022 23_31 Mitteleuropäische Sommerzeit/Sample1083 North.Sample.Raw.csv",
-            "/home/mischa/Documents/Licht-Silizium/20220609_SiWafer/Scan URA 8° 08 June 2022 23_31 Mitteleuropäische Sommerzeit/Sample1082 East.Sample.Raw.csv",
-            "/home/mischa/Documents/Licht-Silizium/20220609_SiWafer/Scan URA 8° 08 June 2022 23_31 Mitteleuropäische Sommerzeit/Sample1081 West.Sample.Raw.csv",
-            "/home/mischa/Documents/Licht-Silizium/20220609_SiWafer/Scan URA 8° 08 June 2022 23_31 Mitteleuropäische Sommerzeit/Sample1080 South.Sample.Raw.csv"]
+    root = tk.Tk()
+    root.withdraw()
+    files = fd.askopenfilenames(title='Choose files')
     filedata =[pd.read_csv(i, index_col=0) for i in files]
     return filedata
 
@@ -35,8 +54,8 @@ def plotter(data):
     ax1.tick_params(axis="y", labelcolor="blue")
 
     ax2 = ax1.twinx()
-    ax2.set_ylabel("refrective index", color="red")
-    plot2 = ax2.plot(data["nm"], brechungsindex(data, 8), color="red", label="refrective index")
+    ax2.set_ylabel("refractive index", color="red")
+    plot2 = ax2.plot(data["nm"], brechungsindex(data, 8), color="red", label="refractive index")
     ax2.tick_params(axis="y", labelcolor="red")
 
     ln = plot1+plot2
@@ -50,4 +69,5 @@ if __name__ == "__main__":
     files = filereader()
     data = mean_data(files)
     print(data)
-    plotter(data)
+    plotter = Plotter(data)
+    plotter.plot_refraction_index()
