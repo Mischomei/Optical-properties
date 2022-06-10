@@ -23,7 +23,27 @@ class Plotter:
         ax2.set_ylabel("refractive index")
         plot2 = ax2.plot(data["nm"], brechungsindex(data, 8), color="red", label="refractive index")
         plt.show()
-        
+    
+    def plot_reflection_refractive_index(self):
+        fig, ax1 = plt.subplots()
+        plot1 = ax1.plot(data["nm"], data["%R"], label="reflection")
+        ax1.set_xlabel("nm")
+        ax1.set_ylabel("%R", color="blue")
+        ax1.set_ylim(0, 100)
+        ax1.tick_params(axis="y", labelcolor="blue")
+
+        ax2 = ax1.twinx()
+        ax2.set_ylabel("refractive index", color="red")
+        plot2 = ax2.plot(data["nm"], brechungsindex(data, 8), color="red", label="refractive index")
+        ax2.tick_params(axis="y", labelcolor="red")
+
+        ln = plot1+plot2
+        labels= [l.get_label() for l in ln]
+        plt.legend(ln, labels, loc=0)
+        if len(sys.argv) >= 2:
+            plt.savefig(sys.argv[1], dpi=600)
+
+
         
 
 def mean_data(*args):
@@ -42,32 +62,15 @@ def filereader():
 
 def brechungsindex(data, winkel):
     reflexion = data["%R"] / 100
+    if len(sys.argv) > 2:
+        winkel = float(sys.argv[2])
     einfallswinkel = winkel * np.pi / 180
     return np.sqrt(np.cos(einfallswinkel)**2*(1+np.sqrt(reflexion))**2/(1-np.sqrt(reflexion))**2+np.sin(einfallswinkel)**2)
 
-def plotter(data):
-    fig, ax1 = plt.subplots()
-    plot1 = ax1.plot(data["nm"], data["%R"], label="reflection")
-    ax1.set_xlabel("nm")
-    ax1.set_ylabel("%R", color="blue")
-    ax1.set_ylim(0, 100)
-    ax1.tick_params(axis="y", labelcolor="blue")
-
-    ax2 = ax1.twinx()
-    ax2.set_ylabel("refractive index", color="red")
-    plot2 = ax2.plot(data["nm"], brechungsindex(data, 8), color="red", label="refractive index")
-    ax2.tick_params(axis="y", labelcolor="red")
-
-    ln = plot1+plot2
-    labels= [l.get_label() for l in ln]
-    plt.legend(ln, labels, loc=0)
-    if len(sys.argv) == 2:
-        plt.savefig(sys.argv[1], dpi=600)
-
-
+   
 if __name__ == "__main__":
     files = filereader()
     data = mean_data(files)
     print(data)
     plotter = Plotter(data)
-    plotter.plot_refraction_index()
+    plotter.plot_reflection_refractive_index()
