@@ -13,18 +13,18 @@ def mean_data(*args):
 
 def filereader():
     #files = fd.askopenfilenames(parent=root, title='Choose files')
-    files = ["/home/mischa/Documents/Licht-Silizium/20220609_Mikhail_SiWafer/Scan URA 8° 08 June 2022 23_31 Mitteleuropäische Sommerzeit/Sample1084 Center.Sample.Raw.csv",
-            "/home/mischa/Documents/Licht-Silizium/20220609_Mikhail_SiWafer/Scan URA 8° 08 June 2022 23_31 Mitteleuropäische Sommerzeit/Sample1083 North.Sample.Raw.csv",
-            "/home/mischa/Documents/Licht-Silizium/20220609_Mikhail_SiWafer/Scan URA 8° 08 June 2022 23_31 Mitteleuropäische Sommerzeit/Sample1082 East.Sample.Raw.csv",
-            "/home/mischa/Documents/Licht-Silizium/20220609_Mikhail_SiWafer/Scan URA 8° 08 June 2022 23_31 Mitteleuropäische Sommerzeit/Sample1081 West.Sample.Raw.csv",
-            "/home/mischa/Documents/Licht-Silizium/20220609_Mikhail_SiWafer/Scan URA 8° 08 June 2022 23_31 Mitteleuropäische Sommerzeit/Sample1080 South.Sample.Raw.csv"]
+    files = ["/home/mischa/Documents/Licht-Silizium/20220609_SiWafer/Scan URA 8° 08 June 2022 23_31 Mitteleuropäische Sommerzeit/Sample1084 Center.Sample.Raw.csv",
+            "/home/mischa/Documents/Licht-Silizium/20220609_SiWafer/Scan URA 8° 08 June 2022 23_31 Mitteleuropäische Sommerzeit/Sample1083 North.Sample.Raw.csv",
+            "/home/mischa/Documents/Licht-Silizium/20220609_SiWafer/Scan URA 8° 08 June 2022 23_31 Mitteleuropäische Sommerzeit/Sample1082 East.Sample.Raw.csv",
+            "/home/mischa/Documents/Licht-Silizium/20220609_SiWafer/Scan URA 8° 08 June 2022 23_31 Mitteleuropäische Sommerzeit/Sample1081 West.Sample.Raw.csv",
+            "/home/mischa/Documents/Licht-Silizium/20220609_SiWafer/Scan URA 8° 08 June 2022 23_31 Mitteleuropäische Sommerzeit/Sample1080 South.Sample.Raw.csv"]
     filedata =[pd.read_csv(i, index_col=0) for i in files]
     return filedata
 
 def brechungsindex(data, winkel):
     reflexion = data["%R"] / 100
     einfallswinkel = winkel * np.pi / 180
-    return np.sqrt(np.cos(einfallswinkel)**2*(1+np.sqrt(reflexion))**2/(1-np.sqrt(reflexion))**2+np.sin(einfallswinkel)**2) 
+    return np.sqrt(np.cos(einfallswinkel)**2*(1+np.sqrt(reflexion))**2/(1-np.sqrt(reflexion))**2+np.sin(einfallswinkel)**2)
 
 def plotter(data):
     fig, ax1 = plt.subplots()
@@ -33,7 +33,7 @@ def plotter(data):
     ax1.set_ylabel("%R", color="blue")
     ax1.set_ylim(0, 100)
     ax1.tick_params(axis="y", labelcolor="blue")
-    
+
     ax2 = ax1.twinx()
     ax2.set_ylabel("refrective index", color="red")
     plot2 = ax2.plot(data["nm"], brechungsindex(data, 8), color="red", label="refrective index")
