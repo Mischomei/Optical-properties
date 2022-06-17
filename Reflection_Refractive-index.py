@@ -5,57 +5,7 @@ from functools import reduce
 import sys
 from tkinter import filedialog as fd
 import tkinter as tk
-
-class Plotter:
-    def __init__(self, data):
-        self.data = data
-    
-    def plot_reflection(self):
-        fig, ax1 = plt.subplots()
-        plot1 = ax1.plot(self.data["nm"], self.data["%R"], label="reflection")
-        ax1.set_xlabel("nm")
-        ax1.set_ylabel("%R")
-        ax1.set_ylim(0, 100)
-        plt.show()
-
-    def plot_refraction_index(self):
-        fig, ax2 = plt.subplots()
-        ax2.set_ylabel("refractive index")
-        plot2 = ax2.plot(self.data["nm"], brechungsindex(self.data, 8), color="red", label="refractive index")
-        plt.show()
-    
-    def plot_reflection_refractive_index(self):
-        fig, ax1 = plt.subplots()
-        plot1 = ax1.plot(self.data["nm"], self.data["%R"], label="reflection")
-        ax1.set_xlabel("nm")
-        ax1.set_ylabel("%R", color="blue")
-        ax1.set_ylim(0, 100)
-        ax1.tick_params(axis="y", labelcolor="blue")
-
-        ax2 = ax1.twinx()
-        ax2.set_ylabel("refractive index", color="red")
-        plot2 = ax2.plot(self.data["nm"], brechungsindex(self.data, 8), color="red", label="refractive index")
-        ax2.tick_params(axis="y", labelcolor="red")
-
-        ln = plot1+plot2
-        labels= [l.get_label() for l in ln]
-        plt.legend(ln, labels, loc=0)
-        plt.show()
-        if len(sys.argv) >= 2:
-            plt.savefig(sys.argv[1], dpi=600)
-
-    def plot_comparison_onetwo(self, data2):
-        fig, ax1 = plt.subplots()
-        plot1 = ax1.plot(self.data["nm"], self.data["%R"], label="reflection")
-        plot2 = ax1.plot(data2["nm"], data2["%R"], label="reflection")
-        ax1.set_xlabel("nm")
-        ax1.set_ylabel("%R")
-        ax1.set_ylim(0, 100)
-        plt.show()
-        plt.savefig("comparison.png", dpi=500)
-
-
-        
+import Plotter
 
 def mean_data(*args):
         nm = args[0][0].index.values
@@ -86,5 +36,5 @@ if __name__ == "__main__":
     data1 = mean_data(files_oneside)
 
     br = brechungsindex(data1, 8)
-    plotter = Plotter(data1)
-    plotter.plot_comparison_onetwo(data2)
+    plotter = Plotter.Plotter(data1)
+    plotter.plot_comparison_onetwo(data2, "SSP", "DSP", "nm", "%R", "nm", "%R", "nm", "%R")
